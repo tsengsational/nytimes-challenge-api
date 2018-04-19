@@ -10,22 +10,12 @@ router.get('/', function(req, res, next) {
       data += chunk;
     });
 
-
-
     resp.on('end', () => {
-      let json = JSON.parse(data)
-      let articles = []
-      json.page.content.forEach(content => {
-        content.collections.forEach(collection => {
-          let collArticles = collection.assets.filter(asset => asset.type === "Article")
-          articles.push(collArticles)
-        })
-      })
-      articles = methods.flatten(articles)
-      res.send(articles)
+      methods.handleResp(data)
     });
-  })
+  });
 });
+
 
 
 module.exports = router;
