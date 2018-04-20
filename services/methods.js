@@ -58,7 +58,7 @@ var methods = {
     });
     return punctuation
   },
-  handleResp: (data) => {
+  handleResp: (data, res) => {
     let json = JSON.parse(data)
     let articles = []
     json.page.content.forEach(content => {
@@ -90,11 +90,15 @@ var methods = {
       }
       return transArticle
     })
-    let payload = {
-      english: articles,
-      martian: translatedArticles
-    }
-    res.send(payload)
+    let payload = []
+    articles.forEach( (article, index) => {
+      let el = {
+        english: article,
+        martian: translatedArticles[index]
+      }
+      payload.push(el)
+    })
+    res.json(payload)
   }
 }
 

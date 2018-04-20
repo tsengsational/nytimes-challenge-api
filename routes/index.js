@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
     });
 
     resp.on('end', () => {
-      methods.handleResp(data)
+      methods.handleResp(data, res)
     });
   });
 });
