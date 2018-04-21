@@ -22,9 +22,11 @@ var methods = {
     return newWord
   },
   martian: function(string) {
+    // split string into array of words, map words into new Array
+    // if word has more than 3 characters and is not a number, translate word
     let words = string.split(' ')
     let translatedWords = words.map( word => {
-      if (word.length > 3) {
+      if ( word.length > 3 && methods.isNotNumber(word) ) {
         if ( methods.hasPunctuation(word) ) {
           return methods.translatePunct(word)
         } else {
@@ -38,9 +40,15 @@ var methods = {
     return translation
   },
   flatten: function (arr) {
+    // recursively flatten array of any depth to depth of 1
     return arr.reduce(function (flat, toFlatten) {
       return flat.concat(Array.isArray(toFlatten) ? methods.flatten(toFlatten) : toFlatten);
     }, []);
+  },
+  isNotNumber: function(word) {
+    // remove commas from string, test if string is NaN
+    word = word.replace(/\,/g,"")
+    return isNaN(word)
   },
   hasPunctuation: function(word) {
     let characters = word.split('');
@@ -59,6 +67,11 @@ var methods = {
     return punctuation
   },
   handleResp: (data, res) => {
+    // parse JSON, traverse JSON and push all raw article objects into Array
+    // parse raw article objects into new article objects with just info needed
+    // created martian versions of new article objects
+    // populate payload array with objects containing both english and martian versions
+    // send JSON response
     let json = JSON.parse(data)
     let articles = []
     json.page.content.forEach(content => {
