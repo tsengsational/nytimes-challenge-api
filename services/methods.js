@@ -5,13 +5,16 @@ var methods = {
     word[0] === word[0].toUpperCase() ? returnedWord = "Boinga" : returnedWord = "boinga"
     return returnedWord
   },
+  isNotPunctuation: function(string) {
+    return !methods.alphabet.includes(string)
+  },
   translatePunct: function(word) {
     // split word from punctuation, then replace the word with translated word,
     // rejoin word Array and return new Word with punctuation
     let wordArr =  word.match(/\w+|\s+|[^\s\w]+/g)
     wordArr = wordArr.map(chunk => {
       let returned = ""
-      if (chunk.length > 1 && !methods.alphabet.includes(chunk)) {
+      if (chunk.length > 1 && methods.isNotPunctuation(chunk)) {
         returned = methods.translate(chunk)
       } else {
         returned = chunk
@@ -62,7 +65,7 @@ var methods = {
   getPunctuation: function(characters) {
     let punctuation = [];
     characters.forEach(character => {
-      !methods.alphabet.includes(character) ? punctuation.push(character) : null
+      methods.isNotPunctuation(character) ? punctuation.push(character) : null
     });
     return punctuation
   },
