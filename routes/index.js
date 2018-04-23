@@ -16,6 +16,9 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.all('/', function (req, res) {
+  res.status(403).send("Can't do that, sorry! Only GETs permitted.")
+})
 
 
 module.exports = router;
